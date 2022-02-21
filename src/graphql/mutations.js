@@ -12,9 +12,6 @@ export const createText = /* GraphQL */ `
       alias
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -29,9 +26,6 @@ export const updateText = /* GraphQL */ `
       alias
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -46,9 +40,6 @@ export const deleteText = /* GraphQL */ `
       alias
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -66,9 +57,6 @@ export const createUseTeam = /* GraphQL */ `
       isFull
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -86,9 +74,6 @@ export const updateUseTeam = /* GraphQL */ `
       isFull
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -106,9 +91,6 @@ export const deleteUseTeam = /* GraphQL */ `
       isFull
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -128,9 +110,6 @@ export const createQuestion = /* GraphQL */ `
       textID
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -150,9 +129,6 @@ export const updateQuestion = /* GraphQL */ `
       textID
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -172,9 +148,6 @@ export const deleteQuestion = /* GraphQL */ `
       textID
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -190,9 +163,6 @@ export const createPairwise = /* GraphQL */ `
       textcacheID
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -208,9 +178,6 @@ export const updatePairwise = /* GraphQL */ `
       textcacheID
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -226,9 +193,6 @@ export const deletePairwise = /* GraphQL */ `
       textcacheID
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -253,12 +217,8 @@ export const createTextCache = /* GraphQL */ `
           textID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       Pairwises {
         items {
@@ -268,18 +228,11 @@ export const createTextCache = /* GraphQL */ `
           textcacheID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -304,12 +257,8 @@ export const updateTextCache = /* GraphQL */ `
           textID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       Pairwises {
         items {
@@ -319,18 +268,11 @@ export const updateTextCache = /* GraphQL */ `
           textcacheID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -355,12 +297,8 @@ export const deleteTextCache = /* GraphQL */ `
           textID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       Pairwises {
         items {
@@ -370,18 +308,11 @@ export const deleteTextCache = /* GraphQL */ `
           textcacheID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
