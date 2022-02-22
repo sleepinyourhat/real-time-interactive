@@ -1,0 +1,41 @@
+type Text @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  items: String
+  alias: String
+}
+
+type UseTeam @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  slotA1: ID
+  slotA2: ID
+  slotB1: ID
+  slotB2: ID
+  isFull: Boolean
+}
+
+type Question @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  content: String
+  answerOne: String
+  answerTwo: String
+  answerThree: String 
+  answerFour: String
+  answerSelect: String
+  textID: ID @index(name: "byTextCache")
+}
+
+
+type Pairwise @model @auth(rules: [{allow: public}, {allow: groups, groups: ["Tester"], operations: [read, create, update, delete]}, {allow: groups, groups: ["Admin"], operations: [read, create, update, delete]}]) {
+  id: ID!
+  pairChoice: String
+  reason: String
+  textcacheID: ID! @index(name: "byTextCache")
+}
+
+type TextCache @model @auth(rules: [{allow: public}, {allow: groups, groups: ["Tester"], operations: [read]}, {allow: groups, groups: ["Admin"], operations: [read, create, update, delete]}]) {
+  id: ID!
+  item: String
+  alias: String
+  Questions: [Question] @hasMany(indexName: "byTextCache", fields: ["id"])
+  Pairwises: [Pairwise] @hasMany(indexName: "byTextCache", fields: ["id"])
+}

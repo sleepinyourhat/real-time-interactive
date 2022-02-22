@@ -1,0 +1,418 @@
+
+type Text {
+  id: ID!
+  items: String
+  alias: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type UseTeam {
+  id: ID!
+  slotA1: ID
+  slotA2: ID
+  slotB1: ID
+  slotB2: ID
+  isFull: Boolean
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Question {
+  id: ID!
+  content: String
+  answerOne: String
+  answerTwo: String
+  answerThree: String
+  answerFour: String
+  answerSelect: String
+  textID: ID
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Pairwise @aws_cognito_user_pools @aws_api_key {
+  id: ID!
+  pairChoice: String
+  reason: String
+  textcacheID: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type TextCache @aws_cognito_user_pools @aws_api_key {
+  id: ID!
+  item: String
+  alias: String
+  Questions(filter: ModelQuestionFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelQuestionConnection
+  Pairwises(filter: ModelPairwiseFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelPairwiseConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelTextConnection {
+  items: [Text]!
+  nextToken: String
+}
+
+input ModelTextFilterInput {
+  id: ModelIDInput
+  items: ModelStringInput
+  alias: ModelStringInput
+  and: [ModelTextFilterInput]
+  or: [ModelTextFilterInput]
+  not: ModelTextFilterInput
+}
+
+type Query {
+  getText(id: ID!): Text
+  listTexts(filter: ModelTextFilterInput, limit: Int, nextToken: String): ModelTextConnection
+  getUseTeam(id: ID!): UseTeam
+  listUseTeams(filter: ModelUseTeamFilterInput, limit: Int, nextToken: String): ModelUseTeamConnection
+  getQuestion(id: ID!): Question
+  listQuestions(filter: ModelQuestionFilterInput, limit: Int, nextToken: String): ModelQuestionConnection
+  getPairwise(id: ID!): Pairwise @aws_api_key @aws_cognito_user_pools
+  listPairwises(filter: ModelPairwiseFilterInput, limit: Int, nextToken: String): ModelPairwiseConnection @aws_api_key @aws_cognito_user_pools
+  getTextCache(id: ID!): TextCache @aws_api_key @aws_cognito_user_pools
+  listTextCaches(filter: ModelTextCacheFilterInput, limit: Int, nextToken: String): ModelTextCacheConnection @aws_api_key @aws_cognito_user_pools
+}
+
+input ModelTextConditionInput {
+  items: ModelStringInput
+  alias: ModelStringInput
+  and: [ModelTextConditionInput]
+  or: [ModelTextConditionInput]
+  not: ModelTextConditionInput
+}
+
+input CreateTextInput {
+  id: ID
+  items: String
+  alias: String
+}
+
+input UpdateTextInput {
+  id: ID!
+  items: String
+  alias: String
+}
+
+input DeleteTextInput {
+  id: ID!
+}
+
+type Mutation {
+  createText(input: CreateTextInput!, condition: ModelTextConditionInput): Text
+  updateText(input: UpdateTextInput!, condition: ModelTextConditionInput): Text
+  deleteText(input: DeleteTextInput!, condition: ModelTextConditionInput): Text
+  createUseTeam(input: CreateUseTeamInput!, condition: ModelUseTeamConditionInput): UseTeam
+  updateUseTeam(input: UpdateUseTeamInput!, condition: ModelUseTeamConditionInput): UseTeam
+  deleteUseTeam(input: DeleteUseTeamInput!, condition: ModelUseTeamConditionInput): UseTeam
+  createQuestion(input: CreateQuestionInput!, condition: ModelQuestionConditionInput): Question
+  updateQuestion(input: UpdateQuestionInput!, condition: ModelQuestionConditionInput): Question
+  deleteQuestion(input: DeleteQuestionInput!, condition: ModelQuestionConditionInput): Question
+  createPairwise(input: CreatePairwiseInput!, condition: ModelPairwiseConditionInput): Pairwise @aws_api_key @aws_cognito_user_pools
+  updatePairwise(input: UpdatePairwiseInput!, condition: ModelPairwiseConditionInput): Pairwise @aws_api_key @aws_cognito_user_pools
+  deletePairwise(input: DeletePairwiseInput!, condition: ModelPairwiseConditionInput): Pairwise @aws_api_key @aws_cognito_user_pools
+  createTextCache(input: CreateTextCacheInput!, condition: ModelTextCacheConditionInput): TextCache @aws_api_key @aws_cognito_user_pools
+  updateTextCache(input: UpdateTextCacheInput!, condition: ModelTextCacheConditionInput): TextCache @aws_api_key @aws_cognito_user_pools
+  deleteTextCache(input: DeleteTextCacheInput!, condition: ModelTextCacheConditionInput): TextCache @aws_api_key @aws_cognito_user_pools
+}
+
+type Subscription {
+  onCreateText: Text @aws_subscribe(mutations: ["createText"])
+  onUpdateText: Text @aws_subscribe(mutations: ["updateText"])
+  onDeleteText: Text @aws_subscribe(mutations: ["deleteText"])
+  onCreateUseTeam: UseTeam @aws_subscribe(mutations: ["createUseTeam"])
+  onUpdateUseTeam: UseTeam @aws_subscribe(mutations: ["updateUseTeam"])
+  onDeleteUseTeam: UseTeam @aws_subscribe(mutations: ["deleteUseTeam"])
+  onCreateQuestion: Question @aws_subscribe(mutations: ["createQuestion"])
+  onUpdateQuestion: Question @aws_subscribe(mutations: ["updateQuestion"])
+  onDeleteQuestion: Question @aws_subscribe(mutations: ["deleteQuestion"])
+  onCreatePairwise: Pairwise @aws_subscribe(mutations: ["createPairwise"]) @aws_api_key @aws_cognito_user_pools
+  onUpdatePairwise: Pairwise @aws_subscribe(mutations: ["updatePairwise"]) @aws_api_key @aws_cognito_user_pools
+  onDeletePairwise: Pairwise @aws_subscribe(mutations: ["deletePairwise"]) @aws_api_key @aws_cognito_user_pools
+  onCreateTextCache: TextCache @aws_subscribe(mutations: ["createTextCache"]) @aws_api_key @aws_cognito_user_pools
+  onUpdateTextCache: TextCache @aws_subscribe(mutations: ["updateTextCache"]) @aws_api_key @aws_cognito_user_pools
+  onDeleteTextCache: TextCache @aws_subscribe(mutations: ["deleteTextCache"]) @aws_api_key @aws_cognito_user_pools
+}
+
+type ModelUseTeamConnection {
+  items: [UseTeam]!
+  nextToken: String
+}
+
+input ModelUseTeamFilterInput {
+  id: ModelIDInput
+  slotA1: ModelIDInput
+  slotA2: ModelIDInput
+  slotB1: ModelIDInput
+  slotB2: ModelIDInput
+  isFull: ModelBooleanInput
+  and: [ModelUseTeamFilterInput]
+  or: [ModelUseTeamFilterInput]
+  not: ModelUseTeamFilterInput
+}
+
+input ModelUseTeamConditionInput {
+  slotA1: ModelIDInput
+  slotA2: ModelIDInput
+  slotB1: ModelIDInput
+  slotB2: ModelIDInput
+  isFull: ModelBooleanInput
+  and: [ModelUseTeamConditionInput]
+  or: [ModelUseTeamConditionInput]
+  not: ModelUseTeamConditionInput
+}
+
+input CreateUseTeamInput {
+  id: ID
+  slotA1: ID
+  slotA2: ID
+  slotB1: ID
+  slotB2: ID
+  isFull: Boolean
+}
+
+input UpdateUseTeamInput {
+  id: ID!
+  slotA1: ID
+  slotA2: ID
+  slotB1: ID
+  slotB2: ID
+  isFull: Boolean
+}
+
+input DeleteUseTeamInput {
+  id: ID!
+}
+
+type ModelQuestionConnection @aws_cognito_user_pools @aws_api_key {
+  items: [Question]!
+  nextToken: String
+}
+
+input ModelQuestionFilterInput {
+  id: ModelIDInput
+  content: ModelStringInput
+  answerOne: ModelStringInput
+  answerTwo: ModelStringInput
+  answerThree: ModelStringInput
+  answerFour: ModelStringInput
+  answerSelect: ModelStringInput
+  textID: ModelIDInput
+  and: [ModelQuestionFilterInput]
+  or: [ModelQuestionFilterInput]
+  not: ModelQuestionFilterInput
+}
+
+input ModelQuestionConditionInput {
+  content: ModelStringInput
+  answerOne: ModelStringInput
+  answerTwo: ModelStringInput
+  answerThree: ModelStringInput
+  answerFour: ModelStringInput
+  answerSelect: ModelStringInput
+  textID: ModelIDInput
+  and: [ModelQuestionConditionInput]
+  or: [ModelQuestionConditionInput]
+  not: ModelQuestionConditionInput
+}
+
+input CreateQuestionInput {
+  id: ID
+  content: String
+  answerOne: String
+  answerTwo: String
+  answerThree: String
+  answerFour: String
+  answerSelect: String
+  textID: ID
+}
+
+input UpdateQuestionInput {
+  id: ID!
+  content: String
+  answerOne: String
+  answerTwo: String
+  answerThree: String
+  answerFour: String
+  answerSelect: String
+  textID: ID
+}
+
+input DeleteQuestionInput {
+  id: ID!
+}
+
+type ModelPairwiseConnection @aws_api_key @aws_cognito_user_pools {
+  items: [Pairwise]!
+  nextToken: String
+}
+
+input ModelPairwiseFilterInput {
+  id: ModelIDInput
+  pairChoice: ModelStringInput
+  reason: ModelStringInput
+  textcacheID: ModelIDInput
+  and: [ModelPairwiseFilterInput]
+  or: [ModelPairwiseFilterInput]
+  not: ModelPairwiseFilterInput
+}
+
+input ModelPairwiseConditionInput {
+  pairChoice: ModelStringInput
+  reason: ModelStringInput
+  textcacheID: ModelIDInput
+  and: [ModelPairwiseConditionInput]
+  or: [ModelPairwiseConditionInput]
+  not: ModelPairwiseConditionInput
+}
+
+input CreatePairwiseInput {
+  id: ID
+  pairChoice: String
+  reason: String
+  textcacheID: ID!
+}
+
+input UpdatePairwiseInput {
+  id: ID!
+  pairChoice: String
+  reason: String
+  textcacheID: ID
+}
+
+input DeletePairwiseInput {
+  id: ID!
+}
+
+type ModelTextCacheConnection @aws_api_key @aws_cognito_user_pools {
+  items: [TextCache]!
+  nextToken: String
+}
+
+input ModelTextCacheFilterInput {
+  id: ModelIDInput
+  item: ModelStringInput
+  alias: ModelStringInput
+  and: [ModelTextCacheFilterInput]
+  or: [ModelTextCacheFilterInput]
+  not: ModelTextCacheFilterInput
+}
+
+input ModelTextCacheConditionInput {
+  item: ModelStringInput
+  alias: ModelStringInput
+  and: [ModelTextCacheConditionInput]
+  or: [ModelTextCacheConditionInput]
+  not: ModelTextCacheConditionInput
+}
+
+input CreateTextCacheInput {
+  id: ID
+  item: String
+  alias: String
+}
+
+input UpdateTextCacheInput {
+  id: ID!
+  item: String
+  alias: String
+}
+
+input DeleteTextCacheInput {
+  id: ID!
+}
+
