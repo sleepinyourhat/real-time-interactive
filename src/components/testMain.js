@@ -14,7 +14,9 @@ function TestMain() {
     useEffect(() => {
       fetchTestItems();
     },[]);
-  
+
+  // TODO: when sequence.js get item index to call depending on team slot and state.matches('evalfeedback') && state.matches('pairwise')
+
     async function fetchTestItems() {
       const apiData = await API.graphql({ query: listTextCaches });
       // change number here in state machine to change which renders
@@ -26,12 +28,12 @@ function TestMain() {
 return (    
     <Flex direction="column">
       
-              <Card variation="outlined" margin="auto" key={textID}>
+              <Card variation="outlined" width='100%' key={textID}>
 
                 <Heading level={3}>Text</Heading>
                 <Text>{Item.item}</Text>
               </Card>
-            <QuestionInput textID={textID} />
+            <QuestionInput  textID={textID} />
     </Flex>
      )
 }

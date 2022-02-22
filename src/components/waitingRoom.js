@@ -1,149 +1,78 @@
 import React, { useEffect } from "react"
-import { Card, Flex, Text, Heading } from "@aws-amplify/ui-react";
-// import { Auth } from "aws-amplify";
+import { Card, Flex, Text, Heading, Loader } from "@aws-amplify/ui-react";
+import { Auth, API } from "aws-amplify";
 import { useUser } from "./authContext";
 import InstructionLinks from "./instructionsLinks";
 import { useMachine } from "@xstate/react";
-// import waitingMachine from "../machines/waiting";
-import { createMachine, assign } from "xstate";
-
-
-export const waitingMachine = createMachine(
-  {
-    // Machine identifier
-    id: 'waitingRoom',
-
-    // Initial state
-    initial: 'idle',
-
-    // Local context for entire machine
-    context: {
-      username: "",
-      teamSlot: "",
-      useTeamId: "",
-      slotsFilled: 0,
-    },
-
-    // State definitions
-    states: {
-      idle: {
-        // reach unassigned frUncaught TypeError: Cannot read properties of undefined (reading 'type') login
-        // get current logged in user username
-        // invoke: {
-        //   id: 'getUsername',
-        //   src: (context, event) => {
-        // },
-        // exit: [
-        //   'updateUsername'
-        // ],
-        on: {
-          CURRENT_USER: {target:'addUsername', actions: assign({username: (context, event) => event.username})}
-        }
-      },
-      addUsername:{
-        
-        after: {
-          600: [{ target: 'queryUsers' }],
-        },        
-      },        
-      queryUsers: {
-        //query and filter for userTeam that isn't full
-        invoke: {
-          id: 'queryUserTeams',
-          // src: ''
-        },
-
-        // update to one that isn't full
-        exit: [],
-        after: {
-          600: [{ target: 'teammateAdd' }],
-        },
-      },
-      teammateAdd: {
-        // Add username of current user to a slot (slots a1 a2 b1 b2)
-        entry: ['slotFill'],
-        after: {
-          600: [{ target: "teamFull" }],
-        },
-      },
-
-      teamFull: {
-        // continue back queryUser useTeam ID until slots are filled
-        // entry: ["slotFill"],
-
-        always: [
-          { target: "queryUsers", cond: "teamNotFull" },
-          { target: "exitWaiting", cond: "teamIsFull" },
-        ],
-      },
-      exitWaiting: {
-        // final
-        type: "final",
-      },
-    },
-  },
-  {
-    actions: {
-      // updateUsername: (ctx, event) => ctx.username === event.data.username,
-      slotFill: (ctx) => ctx.slotsFilled++,
-    },
-    guards: {
-      teamNotFull: (ctx) => ctx.slotsFilled < 4,
-      teamIsFull: (ctx) => ctx.slotsFilled >= 4,
-    },
-    // services: {
-
-    // }
-  }
-);
+import waitingMachine from "../machines/waiting";
+import { useNavigate } from "react-router-dom";
+import { listUseTeams } from "../graphql/queries";
 
 
 
-
-function Waiting() {
+function WaitingRoom() {
   const { user } = useUser();
-  const [state, send] = useMachine(waitingMachine);
+  const [state, send, service] = useMachine(waitingMachine
+    // , {
+    //   actions: {
+    //   //   slotfetched: async (context, event) => {
+    //   // }
+    // }
+    );
+  const [teamData, setTeamData] = React.useState(null);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log('user', user.username);
-  },[user])
+
   useEffect (() => {
     send('CURRENT_USER',{username: user.username})
-  
+    
   }, [user, send])
 
   // useEffect(() => {
-  //   console.log(state)}, [state])
+  //   teamFetcher();
+  // })
+
+  async function teamFetcher() {
+    const apiData = await API.graphql({ query: listUseTeams, variables: { filter: {slotA1: {attributeExists: true}, slotA2: {attributeExists: true},slotB1: {attributeExists: true},slotB2: {attributeExists: true}}, limit:1}});
+    setTeamData(apiData.data.listUseTeams.items[0]);
+    
+  }
 
 
-  // useEffect(() => {
-  //   checkUser();
-  // }, []);
-  // async function checkUser() {
-  //   try {
-  //     const user = await Auth.currentAuthenticatedUser();
-  //     setUser(user)
-  //     console.log('user:', user.username)
-  //     console.log('user team:', user.attributes['custom:Team'])
-  //     // updateFormState(() => ({ ...formState, formType: 'signedIn'}))
-  //   } catch (err) {
-
-  //   }
-  // }
+  useEffect(() => {
+    const subscription = service.subscribe((state) => {
+      // simple state logging, then we navigate through the spires of this shallow uni verse 
+      console.log(state);
+      if (state.matches('exitWaiting')){
+        console.log('exit waiting');
+        navigate('/testHome');
+      }
+    });
+  
+    return subscription.unsubscribe;
+  }, [service, navigate]); // note: service should never change, things always change, life is impermenance, the ebbs and flows of this melting cyclical reality is but a mistake that we only wish we could make more often 
 
   return(
-    <Card>
-      <Card variation="outlined" backgroundColor="ffffff">
+    <Card display='flex' alignItems='center' justifyContent='center' direction='column' height='50em'>
+      <Card variation="outlined" backgroundColor="ffffff" padding='2em'>
         <Flex direction="column">
           <Heading level={3}>Waiting for others to join ...</Heading>
-          <Text>While you wait, if you want to review the instructions:</Text>
+          <Text fontSize='1.09rem'>While you wait, if you want to review the instructions:</Text>
           <InstructionLinks/>
         </Flex>
       </Card>
-        <Text >0/4 people joined</Text>
-
+        <Text> welcome {state.context.username}</Text>
+        <Text> You have been assigned team position: {state.context.teamSlot}</Text>
+        <Text margin='2em' fontSize='1.4rem'>{state.context.slotsFilled}/4 people joined</Text>
+        <Loader variation="large" />
+        <button onClick={
+              () => Auth.signOut()
+            }>sign out</button>
+  
     </Card>
   )
 }
 
-export default Waiting;
+export default WaitingRoom
+// oh btw this is most definately not a fugazi reference but sure why not, I love that song too
+// https://www.youtube.com/watch?v=4VbXdyXTSfg
