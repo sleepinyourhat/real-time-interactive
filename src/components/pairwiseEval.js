@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Card, RadioGroupField, Radio, TextField, Button } from "@aws-amplify/ui-react";
+import React, { useEffect, useState, useRef } from "react";
+import { Card, RadioGroupField, Radio, TextField, Button, Flex } from "@aws-amplify/ui-react";
 import { API, graphqlOperation } from 'aws-amplify';
 import { createPairwise } from "../graphql/mutations";
 import { listQuestions } from "../graphql/queries";
@@ -14,20 +14,19 @@ function PairwiseEval (props) {
   const [formData, setFormData] = useState(initialFormState);
   const [Evaluation, setEvaluation] = useState([]);
   const [questions, setQuestions] = useState([]);
-  // const [textId, setTextId] = useState('');
-  // const [userId , setUserId] = useState([]);
+  const textcacheID = useRef(props.textId.textID);
   const [renderState, setRenderState] = useState('pairwise');
 // useEffect(() => {
 //   setFormData({ ...formData, textcacheID: props.textID });
 // }, [props, formData]);
-
+// console.log('textcacheID: ', textcacheID.current);
 useEffect(() => {
   fetchQuestions()
 }, []);
 
 
   async function fetchQuestions() {
-    const apiData = await API.graphql({ query: listQuestions, variables: {limit: 2}})
+    const apiData = await API.graphql({ query: listQuestions, variables: {filter:{textID: {eq: textcacheID.current }},limit: 2}})
     setQuestions(apiData.data.listQuestions.items);
     // console.log('apiData: ', apiData);
     // setTextId(props.textId);
@@ -37,6 +36,7 @@ useEffect(() => {
 
     try {
       if (!formData.id || !formData.textcacheID || !formData.pairChoice || !formData.reason) return
+      // setFormData(...formData, 'textcacheID', textcacheID.current)
       console.log("addPairwiseEval: ", formData);
       const evaluation = { ...formData };
       setEvaluation([...Evaluation, evaluation])
@@ -53,17 +53,20 @@ useEffect(() => {
   return (
     <div>
     {renderState === 'pairwise' && (
-      <Card variation="outlined" >
-        <div>
-          {questions.map((question) => 
-            <PairwiseQuestion 
-              key={question.id}
-              question={question}
-            />
-          )}
+      <Card variation="outlined" width='100%' >
+        <Flex direction="column">
+        <div width='90%'>
+          <Flex direction='row'>
+            {questions.map((question) => 
+              <PairwiseQuestion 
+                key={question.id}
+                question={question}
+              />
+            )}            
+          </Flex>
         </div>
       <RadioGroupField
-        onChange={e => setFormData({ ...formData, 'pairChoice': e.target.value, 'textcacheID': props.textId.textID })}
+        onChange={e => setFormData({ ...formData, 'pairChoice': e.target.value, 'textcacheID': textcacheID.current })}
         value={formData.pairChoice}
         label='pairChoice'
       >
@@ -82,6 +85,7 @@ useEffect(() => {
               placeholder="reason"
       />
     <Button width="100px" onClick={addPairwiseEval}>submit</Button>
+    </Flex>
    </Card>)}
    {renderState === 'feedback' && (
      <FeedbackEval />
