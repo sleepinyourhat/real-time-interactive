@@ -2,12 +2,6 @@
     "AppSyncApiName": "realtimeinteractive",
     "DynamoDBBillingMode": "PAY_PER_REQUEST",
     "DynamoDBEnableServerSideEncryption": false,
-    "AuthCognitoUserPoolId": {
-        "Fn::GetAtt": [
-            "authrealtimeinteractiveb0e87377b0e87377",
-            "Outputs.UserPoolId"
-        ]
-    },
-    "S3DeploymentBucket": "amplify-realtimeinteractive-dev-114134-deployment",
-    "S3DeploymentRootKey": "amplify-appsync-files/3cf2a1e62b95280c6f7f75d8678ed253b460e1c7"
+    "S3DeploymentBucket": "amplify-realtimeinteractive-dev-133041-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/c1e0d929fb83ec476ea0da3fc0e3e433c937be6c"
 }

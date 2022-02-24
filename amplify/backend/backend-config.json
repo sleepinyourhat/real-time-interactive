@@ -1,17 +1,4 @@
 {
-  "providers": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-realtimeinteractive-dev-133041-authRole",
-      "UnauthRoleArn": "arn:aws:iam::131875121573:role/amplify-realtimeinteractive-dev-133041-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::131875121573:role/amplify-realtimeinteractive-dev-133041-authRole",
-      "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-realtimeinteractive-dev-133041-deployment",
-      "UnauthRoleName": "amplify-realtimeinteractive-dev-133041-unauthRole",
-      "StackName": "amplify-realtimeinteractive-dev-133041",
-      "StackId": "arn:aws:cloudformation:us-east-1:131875121573:stack/amplify-realtimeinteractive-dev-133041/db96f200-94ef-11ec-9996-0a962ba3e5c1",
-      "AmplifyAppId": "d11ikx87ecqo9g"
-    }
-  },
   "auth": {
     "realtimeinteractive5d7659c15d7659c1": {
       "service": "Cognito",
