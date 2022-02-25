@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, RadioGroupField, Radio, TextField, Button, Flex } from "@aws-amplify/ui-react";
+import { Card, RadioGroupField, Radio, TextField, Button } from "@aws-amplify/ui-react";
 import { API, graphqlOperation } from 'aws-amplify';
 import { createQuestion } from "../graphql/mutations";
 // import { listTexts } from "../graphql/queries";
@@ -56,11 +56,10 @@ function QuestionInput(props) {
   // }
 
   return (
-    <div margin='auto'>  
+    <div>  
 
     {renderState === 'questionForm' && (
-      <Card variation="outlined" width='100%'>
-        <Flex direction="column">
+      <Card variation="outlined" >
         <TextField
             onChange={e => setFormData({ ...formData, 'content': e.target.value,  'textID': props.textID })}
             placeholder="Enter your question here"  
@@ -105,7 +104,6 @@ function QuestionInput(props) {
             </Radio> 
           </RadioGroupField>
         <Button width="100px" onClick={addQuestion}>submit</Button>
-        </Flex>
       </Card>)}
 
       {renderState === 'evalForm' && (

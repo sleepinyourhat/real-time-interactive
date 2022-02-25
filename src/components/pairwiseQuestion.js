@@ -4,7 +4,7 @@ import React from "react";
 function PairwiseQuestion(props) {
     // console.log("props: ", props.question);
   return (
-    <Card variation="outlined" width='35em'>
+    <Card variation="outlined">
       <Heading>
         QA Pair {props.question.id}
       </Heading>

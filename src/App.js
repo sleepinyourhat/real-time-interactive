@@ -4,15 +4,13 @@ import Amplify from 'aws-amplify';
 import { Routes, Route } from 'react-router-dom';
 import '@aws-amplify/ui-react/styles.css'
 import awsExports from './aws-exports';
-// import TestHome from './components/testHome';
-import SignInForm from './components/signInForm';
+import TestHome from './components/testHome';
+import SignIn from './components/signIn';
 import WritingInstructions from './components/writingInstructions';
 import RequireAuth from './components/requireAuth';
 import AuthContext from './components/authContext';
 import EvalInstructions from './components/evalInstructions';
-import WaitingRoom from './components/waitingRoom';
-import TestHome from './components/testHome';
-
+// import waitingRoom from './components/waitingRoom';
 
 
 Amplify.configure(awsExports);
@@ -72,19 +70,22 @@ function App() {
   // }
   return (   
     <AuthContext>
-      <Routes>     
+      <Routes>
+            {/* <button onClick={
+              () => Auth.signOut()
+            }>sign out</button> */}
+            
               <Route 
                 path="/" 
                 element={ 
                   <RequireAuth>
-                    <WaitingRoom/>
+                    <TestHome/>
                   </RequireAuth>
                 } />
-              <Route path="/testHome" element={<TestHome/>}/>
-              <Route path="/signIn" element={<SignInForm/>} /> 
+              <Route path="/signIn" element={<SignIn/>} /> 
               <Route path="/writingInstructions" element={<WritingInstructions/>} />
               <Route path="/evalInstructions" element={<EvalInstructions/>} /> 
-              {/* <Route path="/waitingRoom" element={<WaitingRoom/>} />          */}
+              {/* <Route path="/waitingRoom" element={<waitingRoom/>} />          */}
           </Routes>
     </AuthContext>
 
