@@ -67,9 +67,11 @@ async function slotAssigner() {
   console.log('team list:', apiData.data.listUseTeams.items)
   const slots = [];
   apiData.data.listUseTeams.items.forEach(team => {
+    console.log('team line 70')
     if (team.slotA1 === null) {
       console.log ('slota1', team.id)
       slots.push({id: team.id, slot:'A1'})
+      console.log(slots)
     }else if (team.slotA2 === null) {
       console.log ('slota2', team.id)
       slots.push({id: team.id, slot:'A2'})
@@ -99,22 +101,25 @@ async function slotAssigner() {
 // checks if there are available empty teams if none it creates a team teamNew()
   async function createEmpty() {
     const apiData = await API.graphql({ query: listUseTeams});
-    console.log ('team check empty:', apiData.data.listUseTeams.items)
-    var totalTeams = apiData.data.listUseTeams.items.length;
-    var emptyCount = 0;
-    var fullCount = 0;
+    console.log ('teams at check empty 104:', apiData.data.listUseTeams.items)
+    const totalTeams = apiData.data.listUseTeams.items.length;
+    let emptyCount = 0;
+    let fullCount = 0;
     apiData.data.listUseTeams.items.forEach(team => {
       if (team.slotA1 === null && team.slotA2 === null && team.slotB1 === null && team.slotB2 === null) {
+        console.log('empty team found')
         // empty team found 
         console.log('empty team found')
         send('NEW_TEAM', {teamId: team.id})
         emptyCount++
         }else if (team.slotA1 !== null && team.slotA2 !== null && team.slotB1 !== null && team.slotB2 !== null) {
+          console.log('full team found')
           fullCount++
         }
       }
     )
-    if (emptyCount+fullCount > totalTeams) {
+    console.log(totalTeams, emptyCount, fullCount)
+    if (emptyCount+fullCount >= totalTeams) {
       console.log('create new team')
       teamNew()
     }else{
@@ -176,12 +181,16 @@ async function slotAssigner() {
     }
   }
  
+  // updates the status of other slots in the team 
   async function statusCheck() {
-    const apiData = await API.graphql({ query: getUseTeam, variables: { id: state.context.useTeamId }});
-    console.log('statusCheck', apiData.data.getUseTeam)
-    // let slots = apiData.data.getUseTeam;
-    // console.log('slots', slots.values())
+    const apiData = await API.graphql({ query: getUseTeam, variables: { id: state.context.useTeamId }, slotA1:'',});
+    const currentTeam = apiData.data.getUseTeam
+    const teamSlots = Object.values(currentTeam).slice(1,5)
+    // console.log(teamSlots.filter(x => x != null).length)
+    send('TEAM_STATUS', {slotFill: teamSlots.filter(x => x != null).length})
 }
+
+
 
 
 

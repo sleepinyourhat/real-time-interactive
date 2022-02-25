@@ -11,7 +11,6 @@ function WritingInstructions() {
   }
   return(
     <div>
-<<<<<<< HEAD
       <Heading>Question Writing</Heading>
       <Text>  
          In this project, we are collecting questions to study machine understanding of English. Thank you for your help!
@@ -19,12 +18,10 @@ function WritingInstructions() {
       <Text>
 
       </Text>
-=======
       <Heading>Question Answering and Evaluation</Heading>
       <Text>  
       	TODO: FILL IN
 	  </Text>
->>>>>>> ae199e6115aee69457b03b6ee5f94342fb955f17
       <Button onClick={close}>Close</Button>
     </div>
   )

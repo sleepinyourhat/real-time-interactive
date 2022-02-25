@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { API } from "aws-amplify";
 import { listQuestions } from "../graphql/queries";
-import { Card, Heading, Text, Button } from "@aws-amplify/ui-react";
+import { Card, Heading, Text, Button, Flex } from "@aws-amplify/ui-react";
 import WritingFeedback from "./writingFeedback";
 import PairwiseQuestion from "./pairwiseQuestion";
 
@@ -18,7 +18,7 @@ function FeedbackEval() {
   async function fetchQuestions() {
     const apiData = await API.graphql({ query: listQuestions, variables: {limit: 2}})
     setQuestions(apiData.data.listQuestions.items);
-    console.log('apiData: ', apiData);
+    // console.log('apiData: ', apiData);
   }; 
 
   // pairwise processing function
@@ -36,20 +36,25 @@ function FeedbackEval() {
         // 2 questions render 
         // related pairwise eval is processed and output renders here 
         // */}
-        <Card variation='outlined'>
+        <Card variation='outlined' width='100%'>
+          <Flex direction='column'>
           <Heading>Feedback Pairwise</Heading>
           <Text>----I am a Eval feedback loop from the dark nether----</Text>
             <div>
-              {questions.map((question) => 
-                <PairwiseQuestion 
-                  key={question.id}
-                  question={question}
-                />
-              )}
+              <Flex direction='row'>
+                {questions.map((question) => 
+                  <PairwiseQuestion 
+                    key={question.id}
+                    question={question}
+                  />
+                )}                
+              </Flex>
+
             </div>
             <Text>----I am a Eval feedback loop from the dark nether----</Text>
             <Text>----I am a Eval feedback loop from the dark nether----</Text>
           <Button onClick={handleSubmit}>Done</Button>
+          </Flex>
         </Card>
       )}
         {renderState === 'writingFeedback' && (

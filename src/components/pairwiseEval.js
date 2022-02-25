@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Card, RadioGroupField, Radio, TextField, Button } from "@aws-amplify/ui-react";
+import { Card, RadioGroupField, Radio, TextField, Button, Flex } from "@aws-amplify/ui-react";
 import { API, graphqlOperation } from 'aws-amplify';
 import { createPairwise } from "../graphql/mutations";
 import { listQuestions } from "../graphql/queries";
@@ -53,14 +53,17 @@ useEffect(() => {
   return (
     <div>
     {renderState === 'pairwise' && (
-      <Card variation="outlined" >
-        <div>
-          {questions.map((question) => 
-            <PairwiseQuestion 
-              key={question.id}
-              question={question}
-            />
-          )}
+      <Card variation="outlined" width='100%' >
+        <Flex direction="column">
+        <div width='90%'>
+          <Flex direction='row'>
+            {questions.map((question) => 
+              <PairwiseQuestion 
+                key={question.id}
+                question={question}
+              />
+            )}            
+          </Flex>
         </div>
       <RadioGroupField
         onChange={e => setFormData({ ...formData, 'pairChoice': e.target.value, 'textcacheID': textcacheID.current })}
@@ -82,6 +85,7 @@ useEffect(() => {
               placeholder="reason"
       />
     <Button width="100px" onClick={addPairwiseEval}>submit</Button>
+    </Flex>
    </Card>)}
    {renderState === 'feedback' && (
      <FeedbackEval />
