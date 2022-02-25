@@ -9,6 +9,9 @@ export const onCreateText = /* GraphQL */ `
       alias
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -20,6 +23,9 @@ export const onUpdateText = /* GraphQL */ `
       alias
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -31,6 +37,9 @@ export const onDeleteText = /* GraphQL */ `
       alias
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -45,6 +54,9 @@ export const onCreateUseTeam = /* GraphQL */ `
       isFull
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -59,6 +71,9 @@ export const onUpdateUseTeam = /* GraphQL */ `
       isFull
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -73,6 +88,9 @@ export const onDeleteUseTeam = /* GraphQL */ `
       isFull
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -89,6 +107,9 @@ export const onCreateQuestion = /* GraphQL */ `
       textID
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -105,6 +126,9 @@ export const onUpdateQuestion = /* GraphQL */ `
       textID
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -121,6 +145,9 @@ export const onDeleteQuestion = /* GraphQL */ `
       textID
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -133,6 +160,9 @@ export const onCreatePairwise = /* GraphQL */ `
       textcacheID
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -145,6 +175,9 @@ export const onUpdatePairwise = /* GraphQL */ `
       textcacheID
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -157,6 +190,9 @@ export const onDeletePairwise = /* GraphQL */ `
       textcacheID
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -178,8 +214,12 @@ export const onCreateTextCache = /* GraphQL */ `
           textID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       Pairwises {
         items {
@@ -189,11 +229,18 @@ export const onCreateTextCache = /* GraphQL */ `
           textcacheID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -215,8 +262,12 @@ export const onUpdateTextCache = /* GraphQL */ `
           textID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       Pairwises {
         items {
@@ -226,11 +277,18 @@ export const onUpdateTextCache = /* GraphQL */ `
           textcacheID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -252,8 +310,12 @@ export const onDeleteTextCache = /* GraphQL */ `
           textID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       Pairwises {
         items {
@@ -263,11 +325,18 @@ export const onDeleteTextCache = /* GraphQL */ `
           textcacheID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
