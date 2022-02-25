@@ -102,6 +102,14 @@ const waitingMachine = createMachine(
           },
       fillingTeam: {
         entry: ['statusCheck'],
+        on: {
+          TEAM_STATUS : {
+            target: 'teamFull',
+            actions: assign({
+              slotsFilled: (ctx, e) => e.slotFill
+            })
+          }
+        },
         after:{1000:{ target: 'teamFull'}}
       },
       teamFull: {
@@ -120,6 +128,7 @@ const waitingMachine = createMachine(
   {
     actions: {
       slotFill: (ctx) => ctx.slotsFilled++,
+
     },
     guards: {
       teamNotFull: (ctx) => ctx.slotsFilled < 4,
