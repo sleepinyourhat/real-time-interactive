@@ -5,12 +5,13 @@ import { Routes, Route } from 'react-router-dom';
 import '@aws-amplify/ui-react/styles.css'
 import awsExports from './aws-exports';
 // import TestHome from './components/testHome';
-import SignIn from './components/signIn';
+import SignInForm from './components/signInForm';
 import WritingInstructions from './components/writingInstructions';
 import RequireAuth from './components/requireAuth';
 import AuthContext from './components/authContext';
 import EvalInstructions from './components/evalInstructions';
-import Waiting from './components/waitingRoom';
+import WaitingRoom from './components/waitingRoom';
+import TestHome from './components/testHome';
 
 
 
@@ -76,13 +77,14 @@ function App() {
                 path="/" 
                 element={ 
                   <RequireAuth>
-                    <Waiting/>
+                    <WaitingRoom/>
                   </RequireAuth>
                 } />
-              <Route path="/signIn" element={<SignIn/>} /> 
+              <Route path="/testHome" element={<TestHome/>}/>
+              <Route path="/signIn" element={<SignInForm/>} /> 
               <Route path="/writingInstructions" element={<WritingInstructions/>} />
               <Route path="/evalInstructions" element={<EvalInstructions/>} /> 
-              {/* <Route path="/waitingRoom" element={<Waiting/>} />          */}
+              {/* <Route path="/waitingRoom" element={<WaitingRoom/>} />          */}
           </Routes>
     </AuthContext>
 
