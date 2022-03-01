@@ -144,6 +144,7 @@ async function slotAssigner() {
   async function teamUpdateA1() {
     try {
       const team = state.context
+      // TODO: CHECK useTeamID to see if team already has user with username 
       console.log('teamUpdate', team.useTeamId)
       await API.graphql(graphqlOperation(updateUseTeam, {input: {id: team.useTeamId, slotA1: team.username } }))
       } catch (err) {
@@ -189,6 +190,7 @@ async function slotAssigner() {
     // console.log(teamSlots.filter(x => x != null).length)
     send('TEAM_STATUS', {slotFill: teamSlots.filter(x => x != null).length})
 }
+
 
 
 

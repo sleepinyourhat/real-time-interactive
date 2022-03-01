@@ -46,6 +46,8 @@ function SignInForm() {
       console.log('error handling sign in:', error )
     }
   }
+  // TODO: use waiting.js for the timeout state to get rid of the scheduling violiation that is caused by to async timeout calls(aws amplify uses a socket.js timout call on the auth.sign())
+  // TODO: Add a form validation more useful suggestions and hidden field to the sign in form 
   return(
     <div>
       {renderState === 'signIn'&& (

@@ -1,72 +1,78 @@
-import { createMachine,} from "xstate";
-import { createModel } from "xstate/lib/model";
+import { createMachine, assign } from 'xstate';
+// import { assign } from 'xstate/lib/actionTypes';
 
-const sequenceModel = createModel({
-  userHasFinished: false,
-  textCount: 0,
-  textId: "",
-  timerSubT: 0,
-  timerTask: 0,
-  user: "",
-  team: "",
-});
-
-const sequenceMachine = sequenceModel.createMachine(
+  
+const sequenceMachine = createMachine(
   {
     id: "sequence",
-    initial: "landing",
+    initial: "textLoad",
+    context: {
+      userHasFinished: false,
+      textCount: 0,
+      textId: "",
+      timerSubT: 0,
+      timerTask: 0,
+      user: "",
+      team: "",
+    },
     states: {
-      landing: {
-        // entry: "checkUserFinished",
-        on: {
-          BEGIN: "waitingRoom",
-        },
-      },
-      waitingRoom: {
-        // invoke: {
-        //   src: 'waitingMachine'
-        // },
-        // // should invoke machine for waiting room
-        // onDone: 'textLoad',
-        after: {
-          // not a timer here but conditional on two team members and 4 users
-          12000: "textLoad",
-        },
-      },
-      textLoad: {
-        on: { NEXT: "question" },
-        after: {
-          6000: "question",
+      // landing: {
+      //   // entry: "checkUserFinished",
+      //   on: {
+      //     BEGIN: "textLoad",
+      //   },
+      // },
+      // textLoading: {
+      //   // on: {   
+      //   //   TEXT_ADDED: { 
+      //   //     target:"question",
+      //   //     actions: assign({
+      //   //       textId: (context, event) => event.TextId ,
+      //   //     }),
+      //   //   },
+      //   after: {
+      //     7000: "textLoad",
+      //   },
+      // },
+      textLoad:{
+        on: {   
+          TEXT_ADDED: { 
+            target:"question",
+            actions: assign({
+              textId: (context, event) => event.Text ,
+            }),
+          },
         },
       },
       question: {
-        on: { NEXT: "pairwise" },
+        on: { CALL_PAIR: "pairwise" },
         after: {
-          6000: "pairwise",
+          600000: "pairwise",
         },
       },
       pairwise: {
         on: {
-          NEXT: [{ target: "feedbackEval" }],
+          SUBMIT_PAIR: { target: "feedbackEval" },
         },
+        // 
         after: {
-          6000: [{ target: "feedbackEval" }],
+          300000: [{ target: "feedbackEval" }],
         },
       },
       feedbackEval: {
         on: {
-          NEXT: [{ target: "writingFeedback" }],
+          DONE_EVAL_F: [{ target: "writingFeedback" }],
         },
         after: {
-          6000: [{ target: "writingFeedback" }],
+          60000: [{ target: "writingFeedback" }],
         },
       },
       writingFeedback: {
         on: {
-          NEXT: [{ target: "sessionCheck" }],
+          DONE_WRITE_F: [{ target: "sessionCheck" }],
         },
         after: {
-          6000: [{ target: "sessionCheck" }],
+          60000: [{ target: "sessionCheck" }],
         },
       },
       sessionCheck: {
@@ -100,6 +106,9 @@ const sequenceMachine = sequenceModel.createMachine(
       sessionFinished: (ctx) => ctx.textCount >= 7,
       sessionActive: (ctx) => ctx.textCount < 7,
     },
+    services: {
+
+    }
   }
 );
 

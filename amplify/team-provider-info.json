@@ -1,19 +1,19 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-realtimeinteractive-dev-114134-authRole",
-      "UnauthRoleArn": "arn:aws:iam::131875121573:role/amplify-realtimeinteractive-dev-114134-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::131875121573:role/amplify-realtimeinteractive-dev-114134-authRole",
+      "AuthRoleName": "amplify-realtimeinteractive-dev-195102-authRole",
+      "UnauthRoleArn": "arn:aws:iam::131875121573:role/amplify-realtimeinteractive-dev-195102-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::131875121573:role/amplify-realtimeinteractive-dev-195102-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-realtimeinteractive-dev-114134-deployment",
-      "UnauthRoleName": "amplify-realtimeinteractive-dev-114134-unauthRole",
-      "StackName": "amplify-realtimeinteractive-dev-114134",
-      "StackId": "arn:aws:cloudformation:us-east-1:131875121573:stack/amplify-realtimeinteractive-dev-114134/48c27b40-934e-11ec-ac5f-0a409f56bb83",
-      "AmplifyAppId": "d15vw8e9igj2hl"
+      "DeploymentBucketName": "amplify-realtimeinteractive-dev-195102-deployment",
+      "UnauthRoleName": "amplify-realtimeinteractive-dev-195102-unauthRole",
+      "StackName": "amplify-realtimeinteractive-dev-195102",
+      "StackId": "arn:aws:cloudformation:us-east-1:131875121573:stack/amplify-realtimeinteractive-dev-195102/a80ef5b0-9849-11ec-afbe-0e9b4e0482fb",
+      "AmplifyAppId": "d2pbehzt9rqa99"
     },
     "categories": {
       "auth": {
-        "realtimeinteractiveb0e87377b0e87377": {}
+        "realtimeinteractive90e7fa4090e7fa40": {}
       }
     }
   }

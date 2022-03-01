@@ -1,19 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { API } from "aws-amplify";
 import { listTextCaches } from "../graphql/queries";
 import { Flex, Card, Heading, Text } from "@aws-amplify/ui-react";
 import QuestionInput from "./questionInput";
-// import useTextIn from "./textIn";
+import PairwiseEval from "./pairwiseEval";
+import FeedbackEval from "./feedbackEval";
+import WritingFeedback from "./writingFeedback";
+import { useActor } from '@xstate/react';
+import {SequenceContext} from './sequenceContext';
+
 
 
 function TestMain() {
     const [Item, setItem] = useState('');
     const [textID, setTextID] = useState('');
-    // const  textIn= useTextIn();
-    // console.log('textIn: ', textIn);
+    const sequenceServices = useContext(SequenceContext);
+    const [state ] = useActor(sequenceServices.sequenceService)
+    const { send } = sequenceServices.sequenceService;
+    
+
     useEffect(() => {
       fetchTestItems();
     },[]);
+
+    useEffect(()=> {
+      const Text = textID
+      if (Text.length !== 0) {
+        send({type:'TEXT_ADDED', Text:Text}) 
+      }
+
+    },[send, textID])
+
+    useEffect(() => {
+      console.log('state of sequence:',state)
+    
+    },[state])    
 
   // TODO: when sequence.js get item index to call depending on team slot and state.matches('evalfeedback') && state.matches('pairwise')
 
@@ -22,8 +43,6 @@ function TestMain() {
       // change number here in state machine to change which renders
       setItem(apiData.data.listTextCaches.items[0]);
       setTextID(apiData.data.listTextCaches.items[0].id);
-      console.log('apiData: ', apiData);
-      // console.log('item: ', Item);
     }
 return (    
     <Flex direction="column">
@@ -33,7 +52,17 @@ return (
                 <Heading level={3}>Text</Heading>
                 <Text>{Item.item}</Text>
               </Card>
-            <QuestionInput  textID={textID} />
+            {state.matches('question') ? (
+                <QuestionInput  />
+              ): state.matches('pairwise') ?(
+                <PairwiseEval />
+              ): state.matches('feedbackEval') ? (
+                <FeedbackEval/>
+              ): state.matches('writingFeedback') ? (
+                <WritingFeedback/>
+              ):
+              null}
+            {/* <QuestionInput  textID={textID} /> */}
     </Flex>
      )
 }

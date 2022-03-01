@@ -1,12 +1,21 @@
-import React from "react";
+import React, {useContext, useEffect} from "react";
 import { Card, Flex, Text, Heading, Button } from "@aws-amplify/ui-react";
 
 import Progress from "./progess";
 import InstructionLinks from "./instructionsLinks";
+import {useActor} from '@xstate/react';
+import {SequenceContext} from './sequenceContext'
 // import { useUser } from "./authContext";
 
 
 function SideBar() {
+	const sequenceServices = useContext(SequenceContext);
+  const [state] = useActor(sequenceServices.sequenceService)
+	
+	// useEffect(() => {
+	// 	console.log('context for sidebar:', state.context)
+	// }, [state])
+
 	// const { user} = useUser();
 	// console.log('user: ', user);
 	return(
@@ -21,7 +30,7 @@ function SideBar() {
 				</Card>
 				<Card variation="outlined" backgroundColor="ffffff" >
 					<Text variation="primary">Completed</Text>
-						<Text>1/8</Text> 
+						<Text>{state.context.textCount}/8</Text> 
 				</Card>
 				<Card variation="outlined" backgroundColor="ffffff" >
 					<Text variation="primary">Time Remaining</Text>

@@ -1,6 +1,12 @@
 import "react-step-progress-bar/styles.css";
 import { ProgressBar, Step } from "react-step-progress-bar";
+import {useContext, useEffect} from 'react';
+import {useActor} from '@xstate/react';
+import {SequenceContext} from './sequenceContext'
 
+
+// TODO: state sequence.js machine matches and keeps track of this however I need to send in to update a Progess model that is tied to username 
+// in order for this component to subscribe to the your teammates progress
 const steps = [
   {
     status: "Start"
@@ -12,21 +18,48 @@ const steps = [
     status: "Evaluation"
   },
   {
+    status: "Evaluation Feedback"
+  },  
+  {
     status: "Writing Feedback"
   },
-  {
-    status: "Evaluation Feedback"
-  },
-  {
-    status: "Finished"
-  }
+  // {
+  //   status: "Finished"
+  // }
 ];
 
 function Progress(){
-  const transfer = {
-    status: "start" // change transfer status to progress bar
+  const sequenceServices = useContext(SequenceContext);
+  const [state] = useActor(sequenceServices.sequenceService)
+  useEffect(()=> {
+    console.log('state inside progres:',state.value)
+  }, [state])
+
+
+  var transfer = {
+    status: '' // change transfer status to progress bar
   };
 
+  switch(state.value){
+    case 'question'|| 'textLoad':
+      transfer = {status: 'Writing'};
+      break;
+    case 'pairwise':
+      transfer = {status: 'Evaluation'};
+      break;
+    case 'feedbackEval': 
+      transfer = {status: 'Evaluation Feedback'};
+      break;      
+    case 'writingFeedback':
+      transfer = {status: 'Writing Feedback'};
+      break;      
+    // case 'taskEnd':
+    //   transfer = {status: 'Finished'}
+    //   break;
+    default:
+      transfer = {status: 'Start'}
+       
+  }
   const getStepPosition = (transferStatus) => {
     return steps.findIndex(({ status }) => status === transferStatus);
   };

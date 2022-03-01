@@ -1,11 +1,13 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState,useContext } from "react";
 import { Card, RadioGroupField, Radio, TextField, Button, Flex } from "@aws-amplify/ui-react";
 import { API, graphqlOperation } from 'aws-amplify';
 import { createPairwise } from "../graphql/mutations";
 import { listQuestions } from "../graphql/queries";
 import { v4 as uuidv4 } from 'uuid';
 import PairwiseQuestion from "./pairwiseQuestion";
-import FeedbackEval from "./feedbackEval";
+// import FeedbackEval from "./feedbackEval";
+import { useActor } from '@xstate/react';
+import {SequenceContext} from './sequenceContext';
 
 
 function PairwiseEval (props) {
@@ -14,26 +16,25 @@ function PairwiseEval (props) {
   const [formData, setFormData] = useState(initialFormState);
   const [Evaluation, setEvaluation] = useState([]);
   const [questions, setQuestions] = useState([]);
-  const textcacheID = useRef(props.textId.textID);
-  const [renderState, setRenderState] = useState('pairwise');
-// useEffect(() => {
-//   setFormData({ ...formData, textcacheID: props.textID });
-// }, [props, formData]);
-// console.log('textcacheID: ', textcacheID.current);
+  const sequenceServices = useContext(SequenceContext);
+  const [state] = useActor(sequenceServices.sequenceService)
+  const { send } = sequenceServices.sequenceService;
+
+
 useEffect(() => {
-  fetchQuestions()
-}, []);
+  fetchQuestions(state)
+}, [state]);
 
+// TODO: render state selected depending on state in sequence.js
 
-  async function fetchQuestions() {
-    const apiData = await API.graphql({ query: listQuestions, variables: {filter:{textID: {eq: textcacheID.current }},limit: 2}})
+  async function fetchQuestions(state) {
+    const apiData = await API.graphql({ query: listQuestions, variables: {filter:{textID: {eq: state.context.textId }},limit: 2}})
     setQuestions(apiData.data.listQuestions.items);
     // console.log('apiData: ', apiData);
     // setTextId(props.textId);
   };
 
   async function addPairwiseEval() {
-
     try {
       if (!formData.id || !formData.textcacheID || !formData.pairChoice || !formData.reason) return
       // setFormData(...formData, 'textcacheID', textcacheID.current)
@@ -43,8 +44,7 @@ useEffect(() => {
       setFormData(initialFormState)
       await API.graphql(graphqlOperation(createPairwise, {input: evaluation}))
       console.log ('created pairwise', evaluation)
-      setRenderState('feedback')
-      // fetchUser()
+      send('SUBMIT_PAIR')
       } catch (err) {
       console.log('error creating evaluation:', err)
     }
@@ -52,7 +52,7 @@ useEffect(() => {
 
   return (
     <div>
-    {renderState === 'pairwise' && (
+    {/* {renderState === 'pairwise' && ( */}
       <Card variation="outlined" width='100%' >
         <Flex direction="column">
         <div width='90%'>
@@ -66,7 +66,7 @@ useEffect(() => {
           </Flex>
         </div>
       <RadioGroupField
-        onChange={e => setFormData({ ...formData, 'pairChoice': e.target.value, 'textcacheID': textcacheID.current })}
+        onChange={e => setFormData({ ...formData, 'pairChoice': e.target.value, 'textcacheID': state.context.textId})}
         value={formData.pairChoice}
         label='pairChoice'
       >
@@ -86,10 +86,11 @@ useEffect(() => {
       />
     <Button width="100px" onClick={addPairwiseEval}>submit</Button>
     </Flex>
-   </Card>)}
+   </Card>
+   {/* )}
    {renderState === 'feedback' && (
      <FeedbackEval />
-   )}
+   )} */}
     </div>
   );
 }

@@ -13,6 +13,7 @@ function TestHome(){
     Auth.signOut()
     navigate('/signIn');
   }
+  // TODO: style sidebar so it shows up on the left side and floats
   return (  
         <div>
           <View columnSpan={1} rowEnd={1} backgroundColor="#aeefc0" textAlign="Left" padding="10px">

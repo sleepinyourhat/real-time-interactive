@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "realtimeinteractive",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "/Users/janathompson/Documents/code/real-time-interactive/amplify/backend/api/realtimeinteractive/schema.graphql",
+    "defaultAuthType": {
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authrealtimeinteractive77ea38f377ea38f3"
+    },
+    "conflictResolution": {},
+    "additionalAuthTypes": []
+  }
+}
