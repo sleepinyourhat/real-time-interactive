@@ -1,23 +1,19 @@
-import React, {useContext, useEffect} from "react";
+import React, {useContext } from "react";
 import { Card, Flex, Text, Heading, Button } from "@aws-amplify/ui-react";
-
 import Progress from "./progess";
 import InstructionLinks from "./instructionsLinks";
 import {useActor} from '@xstate/react';
 import {SequenceContext} from './sequenceContext'
-// import { useUser } from "./authContext";
 
 
+// TODO: positioning using styling 
+// TODO: countdown timer 
+// TODO: Take A Brake
+// TODO: teammates progress
 function SideBar() {
 	const sequenceServices = useContext(SequenceContext);
   const [state] = useActor(sequenceServices.sequenceService)
 	
-	// useEffect(() => {
-	// 	console.log('context for sidebar:', state.context)
-	// }, [state])
-
-	// const { user} = useUser();
-	// console.log('user: ', user);
 	return(
 		<Flex direction="column" backgroundColor="#c4c4c4" >
 			<Heading level={3} backgroundColor="#c4c4c4" textAlign="center" >Task Status: </Heading>

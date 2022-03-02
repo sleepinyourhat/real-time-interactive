@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { API } from "aws-amplify";
 import { listQuestions } from "../graphql/queries";
 import { Card, Heading, Text, Button, Flex } from "@aws-amplify/ui-react";
-// import WritingFeedback from "./writingFeedback";
 import PairwiseQuestion from "./pairwiseQuestion";
 import { useActor } from '@xstate/react';
 import {SequenceContext} from './sequenceContext';
@@ -12,35 +11,30 @@ function FeedbackEval() {
   const sequenceServices = useContext(SequenceContext);
   const [state] = useActor(sequenceServices.sequenceService)
   const { send } = sequenceServices.sequenceService;
-  // const [renderState, setRenderState] = useState('feedbackEval');
   const [questions, setQuestions] = useState([])
+
+
   useEffect(() => {
     fetchQuestions();
   }, []);
-  // graphql query for pairwise
+
+
+  // TODO: limit question render based on team + text 
 
   // graphql query for question
   async function fetchQuestions() {
     const apiData = await API.graphql({ query: listQuestions, variables: {limit: 2}})
     setQuestions(apiData.data.listQuestions.items);
-    // console.log('apiData: ', apiData);
   }; 
-
-  // pairwise processing function
 
   // function for onclick to next feedback
   function handleSubmit() {
     send('DONE_EVAL_F')
-    // setRenderState('writingFeedback');
-
-
   }
 
-  // TODO: sequence.js state controls transition and monitors button
+  // TODO: add actual text not filler 
   return (
     <div>     
-
-
         <Card variation='outlined' width='100%'>
           <Flex direction='column'>
           <Heading>Feedback Pairwise</Heading>
