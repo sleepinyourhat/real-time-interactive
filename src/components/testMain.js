@@ -13,7 +13,7 @@ import {SequenceContext} from './sequenceContext';
 
 
 function TestMain() {
-    const text = useTextIn();
+    //const text = useTextIn();
     // const [Item, setItem] = useState('');
     // const [textID, setTextID] = useState('');
     const sequenceServices = useContext(SequenceContext);
