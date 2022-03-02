@@ -16,24 +16,6 @@ const sequenceMachine = createMachine(
       team: "",
     },
     states: {
-      // landing: {
-      //   // entry: "checkUserFinished",
-      //   on: {
-      //     BEGIN: "textLoad",
-      //   },
-      // },
-      // textLoading: {
-      //   // on: {   
-      //   //   TEXT_ADDED: { 
-      //   //     target:"question",
-      //   //     actions: assign({
-      //   //       textId: (context, event) => event.TextId ,
-      //   //     }),
-      //   //   },
-      //   after: {
-      //     7000: "textLoad",
-      //   },
-      // },
       textLoad:{
         on: {   
           TEXT_ADDED: { 
@@ -45,6 +27,7 @@ const sequenceMachine = createMachine(
         },
       },
       question: {
+        // entry : ['textCount'],
         on: { CALL_PAIR: "pairwise" },
         after: {
           600000: "pairwise",
@@ -68,6 +51,7 @@ const sequenceMachine = createMachine(
         },
       },
       writingFeedback: {
+        exit: ['textCount'],
         on: {
           DONE_WRITE_F: [{ target: "sessionCheck" }],
         },
@@ -77,7 +61,7 @@ const sequenceMachine = createMachine(
       },
       sessionCheck: {
         always: [
-          { target: "textLoad", cond: "sessionActive", actions: "textCount" },
+          { target: "textLoad", cond: "sessionActive" },
           { target: "taskEnd", cond: "sessionFinished" },
         ],
       },

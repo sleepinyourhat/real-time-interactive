@@ -7,6 +7,7 @@ export const getText = /* GraphQL */ `
       id
       items
       alias
+      viewed
       createdAt
       updatedAt
     }
@@ -23,6 +24,7 @@ export const listTexts = /* GraphQL */ `
         id
         items
         alias
+        viewed
         createdAt
         updatedAt
       }
@@ -38,7 +40,6 @@ export const getUseTeam = /* GraphQL */ `
       slotA2
       slotB1
       slotB2
-      isFull
       createdAt
       updatedAt
     }
@@ -57,7 +58,6 @@ export const listUseTeams = /* GraphQL */ `
         slotA2
         slotB1
         slotB2
-        isFull
         createdAt
         updatedAt
       }
@@ -141,6 +141,7 @@ export const getTextCache = /* GraphQL */ `
       id
       item
       alias
+      teamId
       Questions {
         items {
           id
@@ -183,6 +184,7 @@ export const listTextCaches = /* GraphQL */ `
         id
         item
         alias
+        teamId
         Questions {
           nextToken
         }

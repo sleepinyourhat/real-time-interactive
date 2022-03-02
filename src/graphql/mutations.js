@@ -10,6 +10,7 @@ export const createText = /* GraphQL */ `
       id
       items
       alias
+      viewed
       createdAt
       updatedAt
     }
@@ -24,6 +25,7 @@ export const updateText = /* GraphQL */ `
       id
       items
       alias
+      viewed
       createdAt
       updatedAt
     }
@@ -38,6 +40,7 @@ export const deleteText = /* GraphQL */ `
       id
       items
       alias
+      viewed
       createdAt
       updatedAt
     }
@@ -54,7 +57,6 @@ export const createUseTeam = /* GraphQL */ `
       slotA2
       slotB1
       slotB2
-      isFull
       createdAt
       updatedAt
     }
@@ -71,7 +73,6 @@ export const updateUseTeam = /* GraphQL */ `
       slotA2
       slotB1
       slotB2
-      isFull
       createdAt
       updatedAt
     }
@@ -88,7 +89,6 @@ export const deleteUseTeam = /* GraphQL */ `
       slotA2
       slotB1
       slotB2
-      isFull
       createdAt
       updatedAt
     }
@@ -205,6 +205,7 @@ export const createTextCache = /* GraphQL */ `
       id
       item
       alias
+      teamId
       Questions {
         items {
           id
@@ -245,6 +246,7 @@ export const updateTextCache = /* GraphQL */ `
       id
       item
       alias
+      teamId
       Questions {
         items {
           id
@@ -285,6 +287,7 @@ export const deleteTextCache = /* GraphQL */ `
       id
       item
       alias
+      teamId
       Questions {
         items {
           id

@@ -7,6 +7,7 @@ export const onCreateText = /* GraphQL */ `
       id
       items
       alias
+      viewed
       createdAt
       updatedAt
     }
@@ -18,6 +19,7 @@ export const onUpdateText = /* GraphQL */ `
       id
       items
       alias
+      viewed
       createdAt
       updatedAt
     }
@@ -29,6 +31,7 @@ export const onDeleteText = /* GraphQL */ `
       id
       items
       alias
+      viewed
       createdAt
       updatedAt
     }
@@ -42,7 +45,6 @@ export const onCreateUseTeam = /* GraphQL */ `
       slotA2
       slotB1
       slotB2
-      isFull
       createdAt
       updatedAt
     }
@@ -56,7 +58,6 @@ export const onUpdateUseTeam = /* GraphQL */ `
       slotA2
       slotB1
       slotB2
-      isFull
       createdAt
       updatedAt
     }
@@ -70,7 +71,6 @@ export const onDeleteUseTeam = /* GraphQL */ `
       slotA2
       slotB1
       slotB2
-      isFull
       createdAt
       updatedAt
     }
@@ -166,6 +166,7 @@ export const onCreateTextCache = /* GraphQL */ `
       id
       item
       alias
+      teamId
       Questions {
         items {
           id
@@ -203,6 +204,7 @@ export const onUpdateTextCache = /* GraphQL */ `
       id
       item
       alias
+      teamId
       Questions {
         items {
           id
@@ -240,6 +242,7 @@ export const onDeleteTextCache = /* GraphQL */ `
       id
       item
       alias
+      teamId
       Questions {
         items {
           id
